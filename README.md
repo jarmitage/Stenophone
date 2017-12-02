@@ -14,6 +14,8 @@ Though laptop live coders are known to use other devices and instruments and pla
 
 ![StenophoneDiagram](https://i.imgur.com/lKAEosn.jpg)
 
+Left: Top-down view of the Stenophone with top chassis removed, annotated with type letters and sensor/marker locations. Right: Diagram of system from mechanical input to live coding.
+
 ## Web app screenshot
 
 ![HEL](https://i.imgur.com/P6HC1z0.png)
