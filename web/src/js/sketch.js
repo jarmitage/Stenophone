@@ -115,7 +115,7 @@ function drawStenoKeys()
 function drawRectAndKeyPress(x , y, sI) {
   noStroke();
   let outer = 220;
-  let inner = outer - 50;
+  let inner = outer - 30;
   fill(outer,outer,outer);
   rect(x, y, keyWidth, -keyHeight);
   if (gKeyIsHeld[sI] === true) {
@@ -133,7 +133,7 @@ function drawThresholdLines(x, y, row, col, min, max, sI) {
   if (gStenophoneKeys[sI][s-1]>max) {
     noStroke();
     fill(160);
-    rect(x, y - (min*keyHeight), keyWidth, -((1-max) * keyHeight));
+    // rect(x, y - (min*keyHeight), keyWidth, -((1-max) * keyHeight));
   }
   if (gStenophoneKeys[sI][s-1]>min) {
     fill(160);
