@@ -3,8 +3,7 @@ const socket = io.connect('http://localhost:8080');
 var keyWidth = 50, keyHeight = 70, keySpace = 15;
 var keyRows = 10, keyCols = 2;
 var s = 52;
-
-let chord = '';
+var chord = '';
 
 var gStenophoneNumberBar = [], gKeyIsHeld = [], gKeyPressThresholds = [];
 var gStenophoneKeys = [
@@ -23,7 +22,7 @@ const gStenotypeKeys = {
   vowelRow:            ['A','O','E','U']
 }
 const gStenotypeKeysArr = ['S','T','K','P','W','H','R','A','O','*','E','U','F','R','P','B','L','G','T','S','D','Z',];
-// const gStenotypeKeysArr = [STPH*F]
+
 const gStenotypeSensors = {
   topRow:    [0, 1, 3, 5, 9, 12, 14, 16, 18, 20],
   bottomRow: [0, 2, 4, 6, 9, 13, 15, 17, 19, 21],
