@@ -6,7 +6,7 @@ const osc = require('osc');
 const SerialPort = require('serialport');
 
 const TOTAL_SENSORS         = 22;
-const gUpdateRate           = 1; // ms
+const gUpdateRate           = 10; // ms
 const gSendOSC              = false;
 const gSendKeyPresses       = true;
 const gUpdateClient         = true;
@@ -102,7 +102,6 @@ function releaseKey (key) {
 /* Client side */
 var server = http.createServer(handleRequest);
 server.listen(8080);
-var io = require('socket.io').listen(server);
 
 function handleRequest(req, res) {
   var pathname = req.url;
@@ -128,18 +127,13 @@ function handleRequest(req, res) {
   );
 }
 
-io.sockets.on('connection', // This is run for each individual user that connects
-  function (socket) {
-    console.log("We have a new client: " + socket.id);
-    socket.on('mouse', // When this user emits, client side: socket.emit('otherevent',some data);
-      function(data) {
-        console.log("Received: 'mouse' " + data.x + " " + data.y); // Data comes in as whatever was sent, including objects
-        socket.broadcast.emit('mouse', data); // Send it to all other clients
-        io.sockets.emit('message', "this goes to everyone"); // This is a way to send to everyone including sender
-      }
-    );
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+    console.log("Client connected:", socket.id);
+    socket.emit('keyPressThresholds', {min:gKeyPressMin, max:gKeyPressMax});
     socket.on('disconnect', function() {
-      console.log("Client has disconnected");
+      console.log("Client disconnected:", socket.id);
     });
   }
 );
@@ -181,9 +175,9 @@ var update = setInterval(function() {
           );
         }
         if (gUpdateClient) {
-          io.sockets.emit('stenophoneKeys',       gStenophoneKeys);
-          io.sockets.emit('stenophoneNumberBar',  gStenophoneNumberBar);
-          io.sockets.emit('stenophoneKeyPresses', gKeyIsHeld);
+          io.emit("stenophoneKeys",       gStenophoneKeys);
+          io.emit("stenophoneNumberBar",  gStenophoneNumberBar);
+          io.emit('stenophoneKeyPresses', gKeyIsHeld);
         }
       }
     }

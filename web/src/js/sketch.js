@@ -1,36 +1,21 @@
-var socket;
+const socket = io.connect('http://localhost:8080');
+
+var gStenophoneKeys = [], gStenophoneNumberBar = [], gKeyIsHeld = [], gKeyPressThresholds = [];
+const gStenotypeKeys = ['q','w','s','e','d','r','f','c','v','t','n','m','u','j','i','k','o','l','p','semicolon','openbracket','quote'];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(0);
-  socket = io.connect('http://localhost:8080');
-  socket.on('mouse',
-    function(data) {
-      console.log("Got: " + data.x + " " + data.y);
-      fill(0,0,255);
-      noStroke();
-      ellipse(data.x,data.y,80,80);
-    }
-  );
-  socket.on('stenophoneKeys'), function(data) {
-    console.log('stenophoneKeys:', data);
-  };
+  background(255);
+  socket.on('connect',function(){socket.emit('connected', 'Hello server');});
+  socket.on('stenophoneKeys',       function(data) {gStenophoneKeys      = data;});
+  socket.on('stenophoneNumberBar',  function(data) {gStenophoneNumberBar = data;});
+  socket.on('stenophoneKeyPresses', function(data) {gKeyIsHeld           = data;});
+  socket.on('keyPressThresholds',   function(data) {gKeyPressThresholds  = data;});
 }
 
-function draw() {}
-
-function mouseDragged() {
-  fill(255);
-  noStroke();
-  ellipse(mouseX,mouseY,80,80);
-  sendmouse(mouseX,mouseY);
-}
-
-function sendmouse(xpos, ypos) {
-  console.log("sendmouse: " + xpos + " " + ypos);
-  var data = {
-    x: xpos,
-    y: ypos
-  };
-  socket.emit('mouse',data);
+function draw() {
+  var c = color(255, 204, 0);  // Define color 'c'
+  fill(c);  // Use color variable 'c' as fill color
+  noStroke();  // Don't draw a stroke around shapes
+  rect(30, 20, 55, 55);  // Draw rectangle
 }
