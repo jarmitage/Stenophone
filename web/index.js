@@ -6,7 +6,7 @@ const osc = require('osc');
 const SerialPort = require('serialport');
 
 const TOTAL_SENSORS         = 22;
-const gUpdateRate           = 10; // ms
+const gUpdateRate           = 50; // ms
 const gSendOSC              = false;
 const gSendKeyPresses       = true;
 const gUpdateClient         = true;
@@ -128,7 +128,6 @@ function handleRequest(req, res) {
 }
 
 var io = require('socket.io').listen(server);
-
 io.sockets.on('connection', function (socket) {
     console.log("Client connected:", socket.id);
     socket.emit('keyPressThresholds', {min:gKeyPressMin, max:gKeyPressMax});
@@ -174,6 +173,7 @@ var update = setInterval(function() {
             }
           );
         }
+        /* Send data to client */
         if (gUpdateClient) {
           io.emit("stenophoneKeys",       gStenophoneKeys);
           io.emit("stenophoneNumberBar",  gStenophoneNumberBar);
