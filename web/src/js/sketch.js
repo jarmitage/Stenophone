@@ -4,6 +4,8 @@ var keyWidth = 50, keyHeight = 70, keySpace = 15;
 var keyRows = 10, keyCols = 2;
 var s = 52;
 
+let chord = '';
+
 var gStenophoneNumberBar = [], gKeyIsHeld = [], gKeyPressThresholds = [];
 var gStenophoneKeys = [
   new Array (s),new Array (s),new Array (s),new Array (s),
@@ -63,13 +65,12 @@ function drawStenoChord() {
   fill(0);
   textSize(32);
   textAlign(CENTER, CENTER);
-  let chord = '';
-  for (var i = 0; i < gKeyIsHeld.length; i++) {
-    if (gKeyIsHeld[i]) {
-      chord += gStenotypeKeysArr[i];
-    }
-  }
-  text(chord, 300,-50);
+  keysHeld = '';
+  for (var i = 0; i < gKeyIsHeld.length; i++)
+    if (gKeyIsHeld[i]) keysHeld += gStenotypeKeysArr[i];
+  if (chord.length < keysHeld.length) chord = keysHeld;
+  if (keysHeld.length === 0) chord = '';
+  text(chord, 300, -50);
 }
 
 function drawStenoKeys()

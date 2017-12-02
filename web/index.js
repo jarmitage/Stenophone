@@ -16,9 +16,11 @@ const gSampleNewCalibration = false;
 /* Setup Stenophone */
 var gStenophoneKeys = [], gStenophoneNumberBar = 0, gSerialIsConnected = false;
 const gSensorLookup = [4, 7, 3, 6, 2, 5, 18, 9, 17, 8, 16, 10, 19, 11, 21, 12, 23, 13, 20, 14, 22, 15]; // hardware sensor mapping
-var gStenophoneKeysPrev = [], gStenophoneNumberBarPrev = 0;
-const gStenophoneKeyMins = [0.8028758553274735, 0.8599765395894489, 0.8679608993157429, 0.8873646138807354, 0.8011143695014726, 0.900633431085036, 0.8695855327468268, 0.830414467253174, 0.7922619745845593, 0.8076285434995149, 0.8685532746823116, 0.8643851417399868, 0.7907174975562122, 0.8969188660801497, 0.8523988269794782, 0.8711573802541572, 0.8323831867057631, 0.857481915933532, 0.8816050830889488, 0.8605689149560202, 0.8198142717497504, 0.9141446725317762];
-const gStenophoneKeyMaxs = [0.9232121212121269, 0.9199120234604143, 0.9405141739980425, 0.9341837732160339, 0.9543636363636311, 0.9322385141740019, 0.9475053763440799, 0.9257438905180911, 0.9680801564027377, 0.8874447702834721, 0.9394271749755604, 0.9304105571847551, 0.9699530791788953, 0.9392903225806436, 0.9323773216031318, 0.9299315738025463, 0.9547605083088909, 0.9068484848484857, 0.9491476050830818, 0.9359120234604117, 0.9689130009775232, 0.9433939393939349];
+var gStenophoneKeysPrev1 = [], gStenophoneNumberBarPrev = 0;
+var gStenophoneKeysPrev2 = [];
+var gStenophoneKeysPrev3 = [];
+const gStenophoneKeyMins = [0.8032121212121262, 0.8645200391006904, 0.8680332355816279, 0.888420332355808, 0.800600195503428, 0.901057673509278, 0.8703890518084099, 0.8292746823069383, 0.7966314760508315, 0.8104535679374405, 0.8712922776148609, 0.8631847507331447, 0.7928660801564061, 0.8991417399804423, 0.8559002932551361, 0.8715288367546459, 0.8348895405669536, 0.8605826001955124, 0.883464320625606, 0.862690127077231, 0.8189345063538565, 0.9144926686217077];
+const gStenophoneKeyMaxs = [0.8994936461387991, 0.9204301075268851, 0.9331808406647147, 0.9365239491691112, 0.9110107526881802, 0.9353880742913014, 0.943217986314756, 0.931841642228743, 0.9181583577712658, 0.8897849462365517, 0.9376422287390026, 0.9308914956011767, 0.9669853372433971, 0.9358533724340189, 0.9375444770283479, 0.9337927663734141, 0.9176578690127132, 0.9105063538612014, 0.9443968719452541, 0.9387741935483859, 0.9287038123167206, 0.9473431085043929];
 /* Stenophone sensor calibration */
 var gCalibrateSampleCount = 0, gCalibrateSamples = 500;
 var gCalibrateArray = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]], gCalibrateAverage = [];
@@ -29,7 +31,9 @@ var serialPort = new SerialPort('/dev/tty.usbmodem1225391', {baudRate: 9600});
 const serialParser = serialPort.pipe(new Readline({delimiter: `\r\n`}));
 serialParser.on('data', function (data) {
   // Update previous values
-  gStenophoneKeysPrev      = gStenophoneKeys;
+  gStenophoneKeysPrev3  = gStenophoneKeysPrev2;
+  gStenophoneKeysPrev2  = gStenophoneKeysPrev1;
+  gStenophoneKeysPrev1  = gStenophoneKeys;
   gStenophoneNumberBarPrev = gStenophoneNumberBar;
   // Read new values and reorder array
   let tmp = [];
@@ -40,6 +44,11 @@ serialParser.on('data', function (data) {
     gStenophoneKeys = tmp.map(function applyCurrentCalibration(value, index) {
       let oldMin = gStenophoneKeyMins[index], oldMax = gStenophoneKeyMaxs[index];
       let newValue = (value - oldMin) / (oldMax - oldMin);
+      let prev1 = gStenophoneKeysPrev1[index];
+      let prev2 = gStenophoneKeysPrev2[index];
+      let prev3 = gStenophoneKeysPrev3[index];
+      if (prev1 * prev2 * prev3 > 0)
+        newValue = (newValue + prev1 + prev2 + prev3) / 4;
       return Math.min(Math.max(newValue, 0.0), 1.0);
     });
     gStenophoneNumberBar = data.split(" ").slice(22,23).map(Number);
@@ -144,13 +153,13 @@ var update = setInterval(function() {
         /* Send Key events to KeyEventHandler */
         if (gSendKeyPresses) {
           if (gKeyPressMax < gStenophoneKeys[i] &&
-              gStenophoneKeys[i] > gStenophoneKeysPrev[i] &&
+              gStenophoneKeys[i] > gStenophoneKeysPrev1[i] &&
               gKeyIsHeld[i] === false) {
                 console.log("Key pressed: ", gStenotypeKeys[i]);
                 pressKey(gStenotypeKeys[i]);
                 gKeyIsHeld[i] = true;
           } else if (gKeyPressMin > gStenophoneKeys[i] &&
-                    gStenophoneKeys[i] < gStenophoneKeysPrev[i] &&
+                    gStenophoneKeys[i] < gStenophoneKeysPrev1[i] &&
                     gKeyIsHeld[i] === true) {
                 console.log("Key released: ", gStenotypeKeys[i]);
                 releaseKey(gStenotypeKeys[i]);
