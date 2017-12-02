@@ -1,7 +1,33 @@
 # The Stenophone
 
-A work in progress musical instrument combining stenotype and live coding.
+A musical instrument combining [live coding](http://toplap.org) and [stenotype](https://en.wikipedia.org/wiki/Stenotype).
 
-To be presented at the International Conference on Live Coding 2017, Morelia, Mexico.
+Developed in the [Augmented Instruments Laboratory](http://instrumentslab.org) by [Jack Armitage](http://jackarmitage.com).
 
-Follow this repository for updates.
+Presented at the International Conference on Live Coding 2017, Morelia, Mexico ([Article PDF](https://github.com/jarmitage/stenophone/raw/master/docs/stenophone_iclc2017.pdf)).
+
+## Abstract
+
+Though laptop live coders are known to use other devices and instruments and play with other musicians, laptop live coding generally shares the common physical interface of the QWERTY keyboard. This project seeks to provide a means to explore alternatives to the QWERTY keyboard as a physical interface to laptop live coding. We present a live coding keyboard which is also a digital musical instrument, called the Stenophone. The Stenophone is an augmented stenotype or chorded keyboard, which permits continuous gestural control of keys and features an ergonomic design. These capabilities are exploited to enable the manipulation of algorithms and their parameterisation simultaneously.
+
+## System diagram
+
+![StenophoneDiagram](https://i.imgur.com/lKAEosn.jpg)
+
+## Web app screenshot
+
+![HEL](https://i.imgur.com/P6HC1z0.png)
+
+## Citation
+
+```bibtex
+@inproceedings{armitage_stenophone:_2017,
+	title = {The {Stenophone}: live coding on a chorded keyboard with continuous control},
+	author = {Armitage, Jack and McPherson, Andrew},
+	booktitle = {Proceedings of the {International} {Conference} on {Live} {Coding}},
+	address = {Morelia, Mexico},
+	url = {http://iclc.livecodenetwork.org/2017/},
+	year = {2017},
+	month = dec
+}
+```
