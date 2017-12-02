@@ -1,0 +1,17 @@
+{
+  "name": "stenophone",
+  "version": "0.0.1",
+  "description": "musical instrument based on stenotype",
+  "main": "index.js",
+  "repository": "github.com/jarmitage/stenophone",
+  "author": "Jack Armitage",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "osc": "^2.2.0",
+    "p5": "^0.5.16",
+    "python-shell": "^0.4.0",
+    "serialport": "^6.0.4",
+    "socket.io": "^2.0.4"
+  }
+}
