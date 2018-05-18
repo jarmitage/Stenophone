@@ -4,7 +4,7 @@ A musical instrument combining [live coding](http://toplap.org) and [stenotype](
 
 Developed in the [Augmented Instruments Laboratory](http://instrumentslab.org) by [Jack Armitage](http://jackarmitage.com).
 
-Presented at the [International Conference on Live Coding 2017](iclc.livecodenetwork.org/2017/), Morelia, Mexico. ([Article PDF](https://github.com/jarmitage/stenophone/raw/master/docs/stenophone_iclc2017.pdf))
+Presented at the [International Conference on Live Coding 2017](http://iclc.livecodenetwork.org/2017/), Morelia, Mexico. ([Article PDF](https://github.com/jarmitage/stenophone/raw/master/docs/stenophone_iclc2017.pdf))
 
 ## Abstract
 
