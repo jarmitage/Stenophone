@@ -161,6 +161,15 @@ function drawSparkline(x, y, sI, row, col) {
   stroke(255,0,0,map(gStenophoneKeys[sI][s-1],0,1,0,150));
   fill(255,0,0,map(gStenophoneKeys[sI][s-1],0,1,0,150));
   ellipse(x+keyWidth, sensorY, 2, 2);
+  // Sparkline text
+  noStroke();
+  fill(255,0,0,map(gStenophoneKeys[sI][s-1],0,1,0,255));
+  textSize(6);
+  textAlign(LEFT);
+  let str = "";
+  if (gStenophoneKeys[sI][s-1] != undefined)
+    str += gStenophoneKeys[sI][s-1].toPrecision(3);
+  text(str.substring(1,5),x+keyWidth+2,sensorY);
 }
 
 function drawStenotypeKey(x, y, sensorI, stenoI) {

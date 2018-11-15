@@ -68,7 +68,7 @@ void setup()
   oscP5 = new OscP5(this,9000);
   address = new NetAddress("127.0.0.1", 12000);
   setupKeyboard();
-  stenoImg = loadImage("steno.png");
+  //stenoImg = loadImage("steno.png");
 }
 
 void draw()

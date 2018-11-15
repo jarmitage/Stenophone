@@ -65,6 +65,7 @@ void readAndPrintSwitch()
 int anMuxRead(int channel)
 {
   setAnMuxChannel(channel);
+  delay(10);
   if (channel < 16)
     return analogRead(com16); // sample 16ch mux
   else
