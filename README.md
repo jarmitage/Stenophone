@@ -1,5 +1,9 @@
 # The Stenophone
 
+As you can see this hasn't been worked on in a while. Nevertheless I still think about it and perhaps someone found it interesting to read so it's still here.
+
+---
+
 A musical instrument combining [live coding](http://toplap.org) and [stenotype](https://en.wikipedia.org/wiki/Stenotype).
 
 Developed in the [Augmented Instruments Laboratory](http://instrumentslab.org) by [Jack Armitage](http://jackarmitage.com).
