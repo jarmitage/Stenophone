@@ -12,6 +12,6 @@
     "p5": "^0.5.16",
     "python-shell": "^0.4.0",
     "serialport": "^6.0.4",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.4.0"
   }
 }
