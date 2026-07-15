@@ -107,7 +107,7 @@ function drawStenoKeys()
     if (i >= 2) x1 = i * keyWidth + i * keySpace + keyWidth * 3.5 + keySpace * 1.5;
     drawRectAndKeyPress(x1,y1, sensorI);
     drawThresholdLines(x1, y1, i, 3, gKeyPressThresholds.min, gKeyPressThresholds.max, sensorI);
-    drawSparkline(x1, y1, sensorI, i, j);
+    drawSparkline(x1, y1, sensorI, i, 3);
     drawStenotypeKey(x1, y1, sensorI, stenotypeI);
   }
 }

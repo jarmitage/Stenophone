@@ -3,7 +3,8 @@ const http = require('http');
 const path = require('path');
 const url = require('url');
 const osc = require('osc');
-const SerialPort = require('serialport');
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
 
 const TOTAL_SENSORS         = 22;
 const gUpdateRate           = 50; // ms
@@ -26,10 +27,10 @@ var gCalibrateSampleCount = 0, gCalibrateSamples = 500;
 var gCalibrateArray = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]], gCalibrateAverage = [];
 
 /* Setup SerialPort and SerialParser */
-const Readline = SerialPort.parsers.Readline;
-var serialPort = new SerialPort('/dev/tty.usbmodem1225391', {baudRate: 9600});
-const serialParser = serialPort.pipe(new Readline({delimiter: `\r\n`}));
+var serialPort = new SerialPort({path: '/dev/tty.usbmodem12253901', baudRate: 112500});
+const serialParser = serialPort.pipe(new ReadlineParser({delimiter: `\r\n`}));
 serialParser.on('data', function (data) {
+  // console.log("Incoming serial data:", data);
   // Update previous values
   gStenophoneKeysPrev3  = gStenophoneKeysPrev2;
   gStenophoneKeysPrev2  = gStenophoneKeysPrev1;
@@ -41,15 +42,8 @@ serialParser.on('data', function (data) {
   for (var i = 0; i < tmp2.length; i++) tmp[i] = tmp2[gSensorLookup[i] - 2];
   // Apply existing calibration or create a new one
   if (gSampleNewCalibration === false) {
-    gStenophoneKeys = tmp.map(function applyCurrentCalibration(value, index) {
-      let oldMin = gStenophoneKeyMins[index], oldMax = gStenophoneKeyMaxs[index];
-      let newValue = (value - oldMin) / (oldMax - oldMin);
-      let prev1 = gStenophoneKeysPrev1[index];
-      let prev2 = gStenophoneKeysPrev2[index];
-      let prev3 = gStenophoneKeysPrev3[index];
-      if (prev1 * prev2 * prev3 > 0)
-        newValue = (newValue + prev1 + prev2 + prev3) / 4;
-      return Math.min(Math.max(newValue, 0.0), 1.0);
+    gStenophoneKeys = tmp.map(function clampRawSensorValue(value) {
+      return Math.min(Math.max(value, 0.0), 1.0);
     });
     gStenophoneNumberBar = data.split(" ").slice(22,23).map(Number);
   } else if (gSampleNewCalibration === true) {

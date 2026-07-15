@@ -62,3 +62,17 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# KiCad - backup and autosave files
+*.bak
+*-bak
+*-save.*
+*.lck
+# KiCad - netlist and intermediate files
+*.net
+*.dsn
+*.ses
+# KiCad - generated output directories
+kicad/**/fp-info-cache
+kicad/**/gerbers/
+kicad/**/*-backups/
